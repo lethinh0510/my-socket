@@ -38,6 +38,11 @@ io.on('connection', function(socket){
   console.log('a user connected');
 });
 
+app.post('',function(req,res){
+  console.log('=====',req.body.message)
+  io.emit('admin',req.body.message)
+});
+
 app.get('/', function(req, res){
 
    res.render('index', { title: 'Express' });
@@ -64,6 +69,7 @@ var port = normalizePort(process.env.PORT || '3000');
 http.listen(port, function(){
   console.log('listening on *:'+port);
 });
+
 function normalizePort(val) {
   var port = parseInt(val, 10);
 
