@@ -40,7 +40,8 @@ io.on('connection', function(socket){
 
 app.post('',function(req,res){
   console.log('=====',req.body.message)
-  io.emit('admin',req.body.message)
+  io.emit('admin',req.body.message);
+  res.json('Success');
 });
 
 app.get('/', function(req, res){
