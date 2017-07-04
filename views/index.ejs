@@ -13,6 +13,7 @@
   var socket = io();
   socket.on('admin', function(msg){
       console.log('message', msg);
+      document.getByElement('h1').text(msg);
     });
   </script>
 </html>
