@@ -60,8 +60,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+var port = normalizePort(process.env.PORT || '3000');
+http.listen(port, function(){
+  console.log('listening on *:'+port);
 });
 
