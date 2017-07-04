@@ -33,8 +33,8 @@
   <script type="text/javascript">
   var socket = io();
   socket.on('admin', function(msg){
-      console.log('message', msg);\
-      $('.container').append('<div class="alert alert-success">
+      console.log('message', msg);
+      $('#alert').append('<div class="alert alert-success">
 	    <strong>Success!</strong>'+msg+'action.
 	  </div>')
     });
