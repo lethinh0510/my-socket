@@ -18,7 +18,7 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,61 +28,74 @@ app.use(express.static(path.join(__dirname, 'public')));
 // catch 404 and forward to error handler
 
 
-
-
-
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var jwt = require('jsonwebtoken');
+var jwtSecret = "ACBSSSMMS";
 
-io.on('connection', function(socket){
-  console.log('a user connected');
+io.on('connection', function (socket) {
+    console.log('a user connected');
 });
 
-app.post('',function(req,res){
-  console.log('=====',req.body.message)
-  io.emit('admin',req.body.message);
-  res.json('Success');
+app.post('/login', function () {
+    var profile = {
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'john@doe.com',
+        id: 123
+    };
+
+    // we are sending the profile in the token
+    var token = jwt.sign(profile, jwtSecret, {expiresInMinutes: 60 * 5});
+
+    res.json({token: token});
 });
 
-app.get('/', function(req, res){
-
-   res.render('index', { title: 'Express' });
+app.post('', function (req, res) {
+    console.log('=====', req.body.message);
+    io.emit('admin', req.body.message);
+    res.json('Success');
 });
 
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.get('/', function (req, res) {
+
+    res.render('index', {title: 'Express'});
+});
+
+app.use(function (req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.use(function (err, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 
 var port = normalizePort(process.env.PORT || '3000');
-http.listen(port, function(){
-  console.log('listening on *:'+port);
+http.listen(port, function () {
+    console.log('listening on *:' + port);
 });
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+    var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
 
-  return false;
+    return false;
 }
