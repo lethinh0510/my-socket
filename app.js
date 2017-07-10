@@ -45,7 +45,7 @@ app.post('/login', function (req, res) {
     };
 
     // we are sending the profile in the token
-    var token = jwt.sign(profile, jwtSecret, {expiresIn: 60});
+    var token = jwt.sign(profile, jwtSecret, {expiresIn: 159999});
 
     res.json({token: token});
 });
@@ -63,7 +63,8 @@ sio.set('authorization', socketioJwt.authorize({
 
 sio.sockets
     .on('connection', function (socket) {
-        console.log(socket.handshake.decoded_token.email, 'connected');
+        // console.log(socket.handshake.decoded_token.email, 'connected');
+        console.log(socket,' sssss');
     });
 
 

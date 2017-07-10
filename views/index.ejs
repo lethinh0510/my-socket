@@ -31,8 +31,8 @@
 	</div>
   </body>
   <script type="text/javascript">
-  var socket = io.connect('http://localhost:3000', {
-      query: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiSm9obiIsImxhc3RfbmFtZSI6IkRvZSIsImVtYWlsIjoiam9obkBkb2UuY29tIiwiaWQiOjEyMywiaWF0IjoxNDk5NjU4OTM3LCJleHAiOjE0OTk2NTg5OTd9.nrnHzNiDzBMj9md1ldfLvbJFOSKQivBuTxtNmlHwBp0'
+  var socket = io.connect('', {
+      query: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiSm9obiIsImxhc3RfbmFtZSI6IkRvZSIsImVtYWlsIjoiam9obkBkb2UuY29tIiwiaWQiOjEyMywiaWF0IjoxNDk5NjYwNjE5LCJleHAiOjE0OTk4MjA2MTh9.RnXkIF7DxUpoDS1B8rKtSLaW2h8uPaQzCv7rgyzKDvY'
   });
   socket.on('connect', function () {
       console.log('authenticated');
