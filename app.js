@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 
@@ -37,7 +36,7 @@ io.on('connection', function (socket) {
     console.log('a user connected');
 });
 
-app.post('/login', function () {
+app.post('/login', function (req, res) {
     var profile = {
         first_name: 'John',
         last_name: 'Doe',
@@ -46,16 +45,41 @@ app.post('/login', function () {
     };
 
     // we are sending the profile in the token
-    var token = jwt.sign(profile, jwtSecret, {expiresInMinutes: 60 * 5});
+    var token = jwt.sign(profile, jwtSecret, {expiresIn: 60});
 
     res.json({token: token});
 });
 
+
+
+var socketioJwt = require('socketio-jwt');
+
+var sio = io.listen(http);
+
+sio.set('authorization', socketioJwt.authorize({
+    secret: jwtSecret,
+    handshake: true
+}));
+
+sio.sockets
+    .on('connection', function (socket) {
+        console.log(socket.handshake.decoded_token.email, 'connected');
+    });
+
+
 app.post('', function (req, res) {
-    console.log('=====', req.body.message);
-    io.emit('admin', req.body.message);
+
+    sio.sockets
+        .emit('admin', req.body.message);
     res.json('Success');
 });
+
+
+
+
+
+
+
 
 app.get('/', function (req, res) {
 

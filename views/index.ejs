@@ -31,7 +31,14 @@
 	</div>
   </body>
   <script type="text/javascript">
-  var socket = io();
+  var socket = io.connect('http://localhost:3000', {
+      query: 'token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiSm9obiIsImxhc3RfbmFtZSI6IkRvZSIsImVtYWlsIjoiam9obkBkb2UuY29tIiwiaWQiOjEyMywiaWF0IjoxNDk5NjU4OTM3LCJleHAiOjE0OTk2NTg5OTd9.nrnHzNiDzBMj9md1ldfLvbJFOSKQivBuTxtNmlHwBp0'
+  });
+  socket.on('connect', function () {
+      console.log('authenticated');
+  }).on('disconnect', function () {
+      console.log('disconnected');
+  });
   socket.on('admin', function(msg){
       console.log('message', msg);
       $('#alert').prepend('<div class="alert alert-success"><strong>Success!</strong>'+msg+'</div>')
